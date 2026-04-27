@@ -1,0 +1,39 @@
+package com.example.smartstudyspace.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.smartstudyspace.R
+import com.example.smartstudyspace.data.OnboardingItem
+
+class OnboardingAdapter(private val onboardingItems: List<OnboardingItem>) :
+    RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
+
+    inner class OnboardingViewHolder(view: View) : RecyclerView.LayoutManager(view) {
+        private val imageOnboarding = view.findViewById<ImageView>(R.id.imgOnboarding)        private val textTitle = view.findViewById<TextView>(R.id.tvTitle)
+        private val textDescription = view.findViewById<TextView>(R.id.tvDescription)
+
+        fun bind(onboardingItem: OnboardingItem) {
+            imageOnboarding.setImageResource(onboardingItem.imageResId)
+            textTitle.text = onboardingItem.title
+            textDescription.text = onboardingItem.description
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnboardingViewHolder {
+        return OnboardingViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_onboarding, parent, false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: OnboardingViewHolder, position: Int) {
+        holder.bind(onboardingItems[position])
+    }
+
+    override fun getItemCount(): Int = onboardingItems.size
+}

@@ -14,4 +14,10 @@
     <color name="progress_indicator">#F4B73F</color>
     <color name="glow_center">#3A4A32</color>
     <color name="glow_edge">#142F22</color>
+
+    <color name="bg_cream">#FDFBF7</color>
+    <color name="text_dark_green">#0B2218</color>
+    <color name="text_muted">#5C6B61</color>
+    <color name="dot_active">#0B2218</color>
+    <color name="dot_inactive">#E0DDD6</color>
 </resources>

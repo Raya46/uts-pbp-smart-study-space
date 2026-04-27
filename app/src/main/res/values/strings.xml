@@ -3,4 +3,15 @@
     <string name="title_splash">Smart Study Space</string>
     <string name="subtitle_splash">Find your focus, anytime.</string>
     <string name="desc_logo">Logo Smart Study Space</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next \u2192</string> <string name="get_started">Get Started \u2192</string>
+
+    <string name="ob_title_1">Discover Study Spots\nNear You</string>
+    <string name="ob_desc_1">Explore curated quiet zones and\ncollaborative spaces tailored to your\nacademic focus.</string>
+
+    <string name="ob_title_2">Reserve Your Seat\nin Seconds</string>
+    <string name="ob_desc_2">Eliminate the morning rush. Book your\npreferred desk or library nook before\nyou even leave home.</string>
+
+    <string name="ob_title_3">Find the Perfect\nNoise Level</string>
+    <string name="ob_desc_3">Whether you need total silence or the\nhum of a busy café, we filter spaces\nby their acoustic soul.</string>
 </resources>
