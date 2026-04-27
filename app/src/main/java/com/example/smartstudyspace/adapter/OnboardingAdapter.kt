@@ -12,8 +12,9 @@ import com.example.smartstudyspace.data.OnboardingItem
 class OnboardingAdapter(private val onboardingItems: List<OnboardingItem>) :
     RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
 
-    inner class OnboardingViewHolder(view: View) : RecyclerView.LayoutManager(view) {
-        private val imageOnboarding = view.findViewById<ImageView>(R.id.imgOnboarding)        private val textTitle = view.findViewById<TextView>(R.id.tvTitle)
+    inner class OnboardingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val imageOnboarding = view.findViewById<ImageView>(R.id.imgOnboarding)
+        private val textTitle = view.findViewById<TextView>(R.id.tvTitle)
         private val textDescription = view.findViewById<TextView>(R.id.tvDescription)
 
         fun bind(onboardingItem: OnboardingItem) {

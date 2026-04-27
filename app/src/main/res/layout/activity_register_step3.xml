@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_green"> <View
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:background="@drawable/bg_splash_glow"
+    app:layout_constraintBottom_toBottomOf="@+id/iconContainer"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/iconContainer" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/iconContainer"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="100dp"
+        app:cardBackgroundColor="@color/btn_orange"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="12dp"
+        app:strokeColor="#33FFFFFF"
+        app:strokeWidth="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:src="@drawable/ic_check" app:tint="@color/bg_dark_green" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tvTitleSuccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:text="@string/title_success"
+        android:textColor="@color/text_white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iconContainer" />
+
+    <TextView
+        android:id="@+id/tvSubtitleSuccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:lineSpacingExtra="6dp"
+        android:text="@string/subtitle_success"
+        android:textColor="@color/text_success_muted"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleSuccess" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExplore"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btn_explore"
+        android:textAllCaps="false"
+        android:textColor="@color/bg_dark_green"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/btn_orange"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSetupNotif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSetupNotif"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="64dp"
+        android:text="@string/btn_setup_notif"
+        android:textAllCaps="false"
+        android:textColor="@color/text_white"
+        android:textSize="16sp"
+        app:cornerRadius="30dp"
+        app:icon="@drawable/ic_notifications" app:iconGravity="textStart"
+        app:iconTint="@color/text_white"
+        app:strokeColor="#4DFFFFFF" app:strokeWidth="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="serif"
+        android:letterSpacing="0.1"
+        android:text="@string/footer_registry"
+        android:textColor="#4DFFFFFF"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

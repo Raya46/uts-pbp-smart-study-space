@@ -24,8 +24,7 @@ class SplashActivity : AppCompatActivity() {
 
         // Handler untuk menunda eksekusi Intent
         Handler(Looper.getMainLooper()).postDelayed({
-            // Berpindah ke MainActivity setelah 3 detik
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, OnboardingActivity::class.java)
             startActivity(intent)
 
             // Tutup SplashActivity agar tidak bisa di-back

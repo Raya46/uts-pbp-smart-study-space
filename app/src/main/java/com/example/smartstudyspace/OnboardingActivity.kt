@@ -66,17 +66,17 @@ class OnboardingActivity : AppCompatActivity() {
     private fun setupOnboardingItems() {
         val onboardingItems = listOf(
             OnboardingItem(
-                R.drawable.img,
+                R.drawable.img_1,
                 getString(R.string.ob_title_1),
                 getString(R.string.ob_desc_1)
             ),
             OnboardingItem(
-                R.drawable.img_onboarding_2,
+                R.drawable.img_2,
                 getString(R.string.ob_title_2),
                 getString(R.string.ob_desc_2)
             ),
             OnboardingItem(
-                R.drawable.img_onboarding_3,
+                R.drawable.img_3,
                 getString(R.string.ob_title_3),
                 getString(R.string.ob_desc_3)
             )
@@ -128,7 +128,7 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish() // Tutup onboarding agar tidak bisa di-back
     }

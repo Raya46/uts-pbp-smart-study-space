@@ -15,9 +15,22 @@
     <color name="glow_center">#3A4A32</color>
     <color name="glow_edge">#142F22</color>
 
-    <color name="bg_cream">#FDFBF7</color>
+    <color name="bg_cream">#FEF9F2</color>
     <color name="text_dark_green">#0B2218</color>
     <color name="text_muted">#5C6B61</color>
     <color name="dot_active">#0B2218</color>
     <color name="dot_inactive">#E0DDD6</color>
+
+    <color name="progress_active">#142F22</color>
+    <color name="progress_inactive">#E0DDD6</color>
+    <color name="input_underline">#D9D5CD</color>
+    <color name="password_strong">#4CAF50</color>
+    <color name="text_label">#5C6B61</color>
+
+    <color name="avatar_placeholder">#EAE7E0</color>
+    <color name="badge_edit">#F4B73F</color> <color name="chip_unselected_bg">#FDFBF7</color>
+    <color name="chip_stroke">#D9D5CD</color>
+
+    <color name="btn_orange">#F4B73F</color>
+    <color name="text_success_muted">#829A8C</color>
 </resources>
