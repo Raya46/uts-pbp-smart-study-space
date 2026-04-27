@@ -3,4 +3,56 @@
     <string name="title_splash">Smart Study Space</string>
     <string name="subtitle_splash">Find your focus, anytime.</string>
     <string name="desc_logo">Logo Smart Study Space</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next \u2192</string> <string name="get_started">Get Started \u2192</string>
+
+    <string name="ob_title_1">Discover Study Spots\nNear You</string>
+    <string name="ob_desc_1">Explore curated quiet zones and\ncollaborative spaces tailored to your\nacademic focus.</string>
+
+    <string name="ob_title_2">Reserve Your Seat\nin Seconds</string>
+    <string name="ob_desc_2">Eliminate the morning rush. Book your\npreferred desk or library nook before\nyou even leave home.</string>
+
+    <string name="ob_title_3">Find the Perfect\nNoise Level</string>
+    <string name="ob_desc_3">Whether you need total silence or the\nhum of a busy café, we filter spaces\nby their acoustic soul.</string>
+
+    <string name="title_register_1">Let\'s get you started 🎓</string>
+    <string name="subtitle_register_1">Join a community of scholars and find your perfect sanctuary for deep focus.</string>
+    <string name="label_full_name">FULL NAME</string>
+    <string name="label_email">EMAIL ADDRESS</string>
+    <string name="label_create_password">CREATE PASSWORD</string>
+    <string name="label_confirm_password">CONFIRM PASSWORD</string>
+    <string name="btn_continue">Continue \u2192</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="login">Login</string>
+
+    <string name="title_register_2">Tell us about yourself 📚</string>
+    <string name="subtitle_register_2">Help us curate the perfect intellectual sanctuary for your studies.</string>
+    <string name="upload_avatar">UPLOAD AVATAR</string>
+    <string name="label_university">UNIVERSITY</string>
+    <string name="label_faculty_major">FACULTY / MAJOR</string>
+    <string name="label_student_id">STUDENT ID</string>
+    <string name="label_optional">Optional</string>
+    <string name="label_study_preferences">STUDY PREFERENCES</string>
+    <string name="step_2_footer">Step 2 of 3: Building your academic profile</string>
+
+    <string name="title_success">You\'re all set,\nRafi! 🎉</string> <string name="subtitle_success">Your profile is tailored. Ready to\nfind your sanctuary of focus.</string>
+    <string name="btn_explore">Explore Study Spots \u2192</string>
+    <string name="btn_setup_notif">Set Up Notifications</string>
+    <string name="footer_registry">THE ATELIER ACADEMIC REGISTRY</string>
+
+    <string name="title_edit_profile">Edit Profile</string>
+    <string name="subtitle_edit_profile">Update your information</string>
+    <string name="hint_full_name">Enter your full name</string>
+    <string name="hint_email">your.email@university.edu</string>
+    <string name="hint_university">Your University</string>
+    <string name="hint_major">e.g. Computer Science</string>
+    <string name="btn_save_changes">Save Changes \u2192</string>
+
+    <string name="title_study_pref">Study Preferences</string>
+    <string name="subtitle_study_pref">Customize your experience</string>
+    <string name="label_preferred_spaces">PREFERRED SPACES</string>
+    <string name="label_must_have_amenities">MUST-HAVE AMENITIES</string>
+    <string name="label_email_notif">Email Notifications</string>
+    <string name="desc_email_notif">Booking reminders</string>
+    <string name="btn_save_preferences">Save Preferences \u2192</string>
 </resources>
