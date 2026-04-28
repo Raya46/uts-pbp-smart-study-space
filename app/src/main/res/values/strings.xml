@@ -55,4 +55,17 @@
     <string name="label_email_notif">Email Notifications</string>
     <string name="desc_email_notif">Booking reminders</string>
     <string name="btn_save_preferences">Save Preferences \u2192</string>
+
+    <string name="title_home">Smart Study Space</string>
+    <string name="subtitle_home">Find your focus</string>
+    <string name="hint_search">Search study spots&#8230;</string>
+    <string name="cat_all">All</string>
+    <string name="cat_cafe">Café</string>
+    <string name="cat_library">Library</string>
+    <string name="cat_working_space">Working space</string>
+    <string name="near_you">Near You</string>
+    <string name="view_map">View Map</string>
+    <string name="help_symbol">&#063;</string>
+    <string name="category_distance_format">%1$s &#8226; %2$s</string>
+    <string name="reviews_count_format">(%1$d)</string>
 </resources>
