@@ -54,6 +54,10 @@
             android:name=".StudyPreferencesActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".StudySpotDetailActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

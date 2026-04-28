@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_bookings -> {
-                    // TODO: Ganti dengan BookingsFragment()
-                    // replaceFragment(BookingsFragment())
+                    replaceFragment(BookingsFragment())
                     true
                 }
                 R.id.nav_profile -> {

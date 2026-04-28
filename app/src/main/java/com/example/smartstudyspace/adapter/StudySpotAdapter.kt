@@ -1,10 +1,12 @@
 package com.example.smartstudyspace.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartstudyspace.R
+import com.example.smartstudyspace.StudySpotDetailActivity
 import com.example.smartstudyspace.data.StudySpot
 import com.example.smartstudyspace.databinding.ItemStudySpotBinding
 import com.google.android.material.chip.Chip
@@ -41,6 +43,30 @@ class StudySpotAdapter(private var spots: List<StudySpot>) :
             tvAvailability.text = spot.availability
             tvTag.text = spot.tag
             ivSpotImage.setImageResource(spot.imageResId)
+
+            root.setOnClickListener {
+                val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
+                    putExtra("SPOT_NAME", spot.name)
+                    putExtra("SPOT_CATEGORY", spot.category)
+                    putExtra("SPOT_DISTANCE", spot.distance)
+                    putExtra("SPOT_RATING", spot.rating)
+                    putExtra("SPOT_IMAGE", spot.imageResId)
+                    putExtra("SPOT_TAG", spot.tag)
+                }
+                context.startActivity(intent)
+            }
+
+            btnReserve.setOnClickListener {
+                val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
+                    putExtra("SPOT_NAME", spot.name)
+                    putExtra("SPOT_CATEGORY", spot.category)
+                    putExtra("SPOT_DISTANCE", spot.distance)
+                    putExtra("SPOT_RATING", spot.rating)
+                    putExtra("SPOT_IMAGE", spot.imageResId)
+                    putExtra("SPOT_TAG", spot.tag)
+                }
+                context.startActivity(intent)
+            }
 
             cgFeatures.removeAllViews()
             spot.features.forEach { feature ->
