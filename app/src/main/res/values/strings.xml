@@ -65,7 +65,10 @@
     <string name="cat_working_space">Working space</string>
     <string name="near_you">Near You</string>
     <string name="view_map">View Map</string>
-    <string name="help_symbol">&#063;</string>
+    <string name="help_symbol">?</string>
     <string name="category_distance_format">%1$s &#8226; %2$s</string>
     <string name="reviews_count_format">(%1$d)</string>
+    <string name="btn_reserve">Reserve Now \u2192</string>
+    <string name="desc_spot_image">Study spot image</string>
+    <string name="desc_star_icon">Rating star icon</string>
 </resources>

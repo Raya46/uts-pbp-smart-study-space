@@ -24,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@color/text_muted_green" />
+                android:src="@color/text_muted_green"
+                android:contentDescription="@string/desc_spot_image" />
 
             <TextView
                 android:id="@+id/tvTag"
@@ -74,7 +75,8 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@android:drawable/btn_star_big_on"
-                        app:tint="@color/badge_edit" />
+                        app:tint="@color/badge_edit"
+                        android:contentDescription="@string/desc_star_icon" />
 
                     <TextView
                         android:id="@+id/tvRating"
@@ -139,7 +141,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@color/bg_dark_green"
-                android:text="Reserve Now →"
+                android:text="@string/btn_reserve"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:cornerRadius="28dp" />

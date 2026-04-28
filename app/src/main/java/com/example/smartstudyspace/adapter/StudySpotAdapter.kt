@@ -2,6 +2,7 @@ package com.example.smartstudyspace.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartstudyspace.R
 import com.example.smartstudyspace.data.StudySpot
@@ -12,8 +13,9 @@ class StudySpotAdapter(private var spots: List<StudySpot>) :
     RecyclerView.Adapter<StudySpotAdapter.StudySpotViewHolder>() {
 
     fun updateList(newList: List<StudySpot>) {
+        val diffResult = DiffUtil.calculateDiff(StudySpotDiffCallback(spots, newList))
         spots = newList
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     class StudySpotViewHolder(val binding: ItemStudySpotBinding) :
@@ -53,4 +55,18 @@ class StudySpotAdapter(private var spots: List<StudySpot>) :
     }
 
     override fun getItemCount(): Int = spots.size
+
+    class StudySpotDiffCallback(
+        private val oldList: List<StudySpot>,
+        private val newList: List<StudySpot>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldList.size
+        override fun getNewListSize(): Int = newList.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
+        }
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
+    }
 }

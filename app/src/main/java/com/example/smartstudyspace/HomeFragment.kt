@@ -18,23 +18,25 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var studySpotAdapter: StudySpotAdapter
-    private val allSpots = listOf(
-        StudySpot(
-            1, "Central Library", "Library", "0.5 km", 4.8, 124,
-            "15/50 seats available", R.drawable.bg_library, "Quiet",
-            listOf("WiFi", "AC", "Power")
-        ),
-        StudySpot(
-            2, "Kampus Café", "Café", "0.8 km", 4.8, 124,
-            "Limited seats available", R.drawable.img_1, "Moderate",
-            listOf("Coffee", "WiFi", "AC")
-        ),
-        StudySpot(
-            3, "Working Hub", "Working Space", "1.2 km", 4.5, 89,
-            "20/30 seats available", R.drawable.img_2, "Quiet",
-            listOf("WiFi", "Power", "Printer")
+    private val allSpots by lazy {
+        listOf(
+            StudySpot(
+                1, "Central Library", getString(R.string.cat_library), "0.5 km", 4.8, 124,
+                "15/50 seats available", R.drawable.bg_library, "Quiet",
+                listOf("WiFi", "AC", "Power")
+            ),
+            StudySpot(
+                2, "Kampus Café", getString(R.string.cat_cafe), "0.8 km", 4.8, 124,
+                "Limited seats available", R.drawable.img_1, "Moderate",
+                listOf("Coffee", "WiFi", "AC")
+            ),
+            StudySpot(
+                3, "Working Hub", getString(R.string.cat_working_space), "1.2 km", 4.5, 89,
+                "20/30 seats available", R.drawable.img_2, "Quiet",
+                listOf("WiFi", "Power", "Printer")
+            )
         )
-    )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,9 +85,9 @@ class HomeFragment : Fragment() {
         val filteredList = allSpots.filter { spot ->
             val matchesSearch = spot.name.lowercase().contains(searchQuery)
             val matchesCategory = when (checkedChipId) {
-                R.id.chipCafe -> spot.category == "Café"
-                R.id.chipLibrary -> spot.category == "Library"
-                R.id.chipWorkingSpace -> spot.category == "Working Space"
+                R.id.chipCafe -> spot.category == getString(R.string.cat_cafe)
+                R.id.chipLibrary -> spot.category == getString(R.string.cat_library)
+                R.id.chipWorkingSpace -> spot.category == getString(R.string.cat_working_space)
                 else -> true // "All" or none selected
             }
             matchesSearch && matchesCategory

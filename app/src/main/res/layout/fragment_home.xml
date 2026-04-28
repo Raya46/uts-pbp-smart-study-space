@@ -18,9 +18,30 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="16dp">
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/helpCard"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                app:cardBackgroundColor="@color/bg_dark_green"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/help_symbol"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </com.google.android.material.card.MaterialCardView>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/helpCard"
                 android:orientation="vertical">
 
                 <TextView
@@ -38,24 +59,6 @@
                     android:textColor="@color/text_muted"
                     android:textSize="16sp" />
             </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:cardBackgroundColor="@color/bg_dark_green"
-                app:cardCornerRadius="20dp"
-                app:strokeWidth="0dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/help_symbol"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
 
         <!-- Search Bar -->
@@ -155,20 +158,24 @@
             android:paddingHorizontal="16dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/near_you"
-                android:textColor="@color/text_dark_green"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
+                android:id="@+id/tvViewMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="@string/view_map"
                 android:textColor="@color/text_dark_green"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNearYou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/tvViewMap"
+                android:text="@string/near_you"
+                android:textColor="@color/text_dark_green"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
