@@ -34,6 +34,14 @@ object MockDataProvider {
             Booking(
                 2, "Central Library", context.getString(R.string.cat_library), "Apr 18, 2026",
                 "13:00 - 15:00", 1, "Active", R.drawable.bg_library, "Quiet"
+            ),
+            Booking(
+                3, "Kampus Café", context.getString(R.string.cat_cafe), "Mar 10, 2026",
+                "09:00 - 11:00", 2, "Completed", R.drawable.img_1, "Moderate"
+            ),
+            Booking(
+                4, "Working Hub", context.getString(R.string.cat_working_space), "Feb 25, 2026",
+                "14:00 - 16:00", 4, "Cancelled", R.drawable.img_2, "Quiet"
             )
         )
     }
