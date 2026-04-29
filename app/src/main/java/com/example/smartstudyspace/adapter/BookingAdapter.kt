@@ -45,11 +45,10 @@ class BookingAdapter(private val bookings: List<Booking>) :
 
             btnViewDetail.setOnClickListener {
                 val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
-                    putExtra("SPOT_NAME", booking.spotName)
-                    putExtra("SPOT_CATEGORY", booking.category)
-                    putExtra("SPOT_IMAGE", booking.imageResId)
-                    putExtra("SPOT_TAG", booking.tag)
-                    // You can add more extras if needed
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_NAME, booking.spotName)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_CATEGORY, booking.category)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_IMAGE, booking.imageResId)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_TAG, booking.tag)
                 }
                 context.startActivity(intent)
             }

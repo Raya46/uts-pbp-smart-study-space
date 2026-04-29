@@ -53,48 +53,31 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tvRatingAndCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_dark_green"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@android:drawable/btn_star_big_on"
+                    app:drawableTint="@color/badge_edit"
+                    tools:text="4.8 (124)" />
+
+                <TextView
                     android:id="@+id/tvSpotName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/llRating"
+                    android:layout_toStartOf="@+id/tvRatingAndCount"
+                    android:layout_marginEnd="8dp"
                     android:textColor="@color/text_dark_green"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     tools:text="Central Library" />
 
-                <LinearLayout
-                    android:id="@+id/llRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@android:drawable/btn_star_big_on"
-                        app:tint="@color/badge_edit"
-                        android:contentDescription="@string/desc_star_icon" />
-
-                    <TextView
-                        android:id="@+id/tvRating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/text_dark_green"
-                        android:textStyle="bold"
-                        tools:text="4.8" />
-
-                    <TextView
-                        android:id="@+id/tvReviewsCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/text_muted"
-                        tools:text="(124)" />
-                </LinearLayout>
             </RelativeLayout>
 
             <TextView
@@ -105,26 +88,16 @@
                 android:textColor="@color/text_muted"
                 tools:text="Library • 0.5 km" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvAvailability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:background="@drawable/bg_dot_green" />
-
-                <TextView
-                    android:id="@+id/tvAvailability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/text_muted"
-                    tools:text="15/50 seats available" />
-            </LinearLayout>
+                android:textColor="@color/text_muted"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/bg_dot_green"
+                tools:text="15/50 seats available" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/cgFeatures"

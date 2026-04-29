@@ -11,6 +11,17 @@ class StudySpotDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudySpotDetailBinding
 
+    companion object {
+        const val EXTRA_SPOT_NAME = "SPOT_NAME"
+        const val EXTRA_SPOT_CATEGORY = "SPOT_CATEGORY"
+        const val EXTRA_SPOT_DISTANCE = "SPOT_DISTANCE"
+        const val EXTRA_SPOT_RATING = "SPOT_RATING"
+        const val EXTRA_SPOT_IMAGE = "SPOT_IMAGE"
+        const val EXTRA_SPOT_TAG = "SPOT_TAG"
+        
+        private const val DEFAULT_SEAT_COUNT = 2
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStudySpotDetailBinding.inflate(layoutInflater)
@@ -25,17 +36,17 @@ class StudySpotDetailActivity : AppCompatActivity() {
     }
 
     private fun setupData() {
-        val name = intent.getStringExtra("SPOT_NAME") ?: "Kampus Café"
-        val category = intent.getStringExtra("SPOT_CATEGORY") ?: "Café"
-        val distance = intent.getStringExtra("SPOT_DISTANCE") ?: "0.8 km"
-        val rating = intent.getDoubleExtra("SPOT_RATING", 4.6)
-        val imageRes = intent.getIntExtra("SPOT_IMAGE", R.drawable.img_1)
-        val tag = intent.getStringExtra("SPOT_TAG") ?: "Moderate"
+        val name = intent.getStringExtra(EXTRA_SPOT_NAME) ?: getString(R.string.cat_library)
+        val category = intent.getStringExtra(EXTRA_SPOT_CATEGORY) ?: getString(R.string.cat_library)
+        val distance = intent.getStringExtra(EXTRA_SPOT_DISTANCE) ?: ""
+        val rating = intent.getDoubleExtra(EXTRA_SPOT_RATING, 0.0)
+        val imageRes = intent.getIntExtra(EXTRA_SPOT_IMAGE, R.drawable.bg_library)
+        val tag = intent.getStringExtra(EXTRA_SPOT_TAG) ?: ""
 
         binding.apply {
             tvDetailName.text = name
             tvDetailCategoryDistance.text = getString(R.string.category_distance_format, category, distance)
-            tvDetailRating.text = rating.toString()
+            tvDetailRating.text = getString(R.string.rating_format, rating)
             ivDetailImage.setImageResource(imageRes)
             tvDetailTag.text = tag
 
@@ -45,27 +56,35 @@ class StudySpotDetailActivity : AppCompatActivity() {
 
     private fun setupTabs() {
         binding.tabReserve.setOnClickListener {
-            // Switch to Reserve Tab
-            binding.tabReserve.setBackgroundResource(R.drawable.bg_item_selected)
-            binding.tabReserve.setTextColor(getColor(R.color.white))
-            binding.tabDetail.background = null
-            binding.tabDetail.setTextColor(getColor(R.color.text_muted))
-
-            binding.llReserveContent.visibility = View.VISIBLE
-            binding.llDetailContent.visibility = View.GONE
-            binding.btnReserveNowDetail.visibility = View.VISIBLE
+            updateTabUI(isReserveSelected = true)
         }
 
         binding.tabDetail.setOnClickListener {
-            // Switch to Detail Tab
-            binding.tabDetail.setBackgroundResource(R.drawable.bg_item_selected)
-            binding.tabDetail.setTextColor(getColor(R.color.white))
-            binding.tabReserve.background = null
-            binding.tabReserve.setTextColor(getColor(R.color.text_muted))
+            updateTabUI(isReserveSelected = false)
+        }
+    }
+    
+    private fun updateTabUI(isReserveSelected: Boolean) {
+        binding.apply {
+            if (isReserveSelected) {
+                tabReserve.setBackgroundResource(R.drawable.bg_item_selected)
+                tabReserve.setTextColor(getColor(R.color.white))
+                tabDetail.background = null
+                tabDetail.setTextColor(getColor(R.color.text_muted))
 
-            binding.llReserveContent.visibility = View.GONE
-            binding.llDetailContent.visibility = View.VISIBLE
-            binding.btnReserveNowDetail.visibility = View.GONE
+                llReserveContent.visibility = View.VISIBLE
+                llDetailContent.visibility = View.GONE
+                btnReserveNowDetail.visibility = View.VISIBLE
+            } else {
+                tabDetail.setBackgroundResource(R.drawable.bg_item_selected)
+                tabDetail.setTextColor(getColor(R.color.white))
+                tabReserve.background = null
+                tabReserve.setTextColor(getColor(R.color.text_muted))
+
+                llReserveContent.visibility = View.GONE
+                llDetailContent.visibility = View.VISIBLE
+                btnReserveNowDetail.visibility = View.GONE
+            }
         }
     }
 
@@ -95,7 +114,7 @@ class StudySpotDetailActivity : AppCompatActivity() {
     }
 
     private fun setupCounter() {
-        var count = 2
+        var count = DEFAULT_SEAT_COUNT
         binding.tvSeatCount.text = getString(R.string.format_seats, count)
 
         binding.btnPlus.setOnClickListener {

@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:background="@drawable/bg_tag_orange"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
@@ -68,76 +69,60 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_calendar"
-                app:tint="@color/text_muted"
-                android:contentDescription="@string/desc_calendar_icon" />
-
             <TextView
                 android:id="@+id/tvBookingDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:textColor="@color/text_muted"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_calendar"
+                app:drawableTint="@color/text_muted"
                 tools:text="Apr 20, 2026" />
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_clock"
-                app:tint="@color/text_muted"
-                android:contentDescription="@string/desc_clock_icon" />
 
             <TextView
                 android:id="@+id/tvBookingTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:textColor="@color/text_muted"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_clock"
+                app:drawableTint="@color/text_muted"
                 tools:text="10:00 - 12:00" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_person"
-                app:tint="@color/text_muted"
-                android:contentDescription="@string/desc_seat_icon" />
+            android:layout_marginTop="12dp">
 
             <TextView
                 android:id="@+id/tvBookingSeats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/btnViewDetail"
+                android:layout_marginEnd="8dp"
                 android:textColor="@color/text_muted"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_person"
+                app:drawableTint="@color/text_muted"
                 tools:text="2 Seats" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnViewDetail"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:text="@string/btn_view_detail"
                 android:textAllCaps="false"
                 android:textColor="@color/text_dark_green"
                 android:backgroundTint="#F5F2EC"
                 app:cornerRadius="12dp" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

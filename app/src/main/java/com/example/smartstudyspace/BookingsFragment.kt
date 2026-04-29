@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smartstudyspace.adapter.BookingAdapter
-import com.example.smartstudyspace.data.Booking
+import com.example.smartstudyspace.data.MockDataProvider
 import com.example.smartstudyspace.databinding.FragmentBookingsBinding
 
 class BookingsFragment : Fragment() {
@@ -31,20 +31,11 @@ class BookingsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val dummyBookings = listOf(
-            Booking(
-                1, "Study Hub FIK", "Working Space", "Apr 20, 2026",
-                "10:00 - 12:00", 2, "Upcoming", R.drawable.img_2, "Quiet"
-            ),
-            Booking(
-                2, "Central Library", "Library", "Apr 18, 2026",
-                "13:00 - 15:00", 1, "Active", R.drawable.bg_library, "Quiet"
-            )
-        )
+        val bookings = MockDataProvider.getBookings(requireContext())
 
         binding.rvBookings.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = BookingAdapter(dummyBookings)
+            adapter = BookingAdapter(bookings)
         }
     }
 
@@ -54,7 +45,6 @@ class BookingsFragment : Fragment() {
             binding.tabActiveOrders.setTextColor(requireContext().getColor(R.color.white))
             binding.tabPreviousOrders.background = null
             binding.tabPreviousOrders.setTextColor(requireContext().getColor(R.color.text_muted))
-            // Here you would typically filter the list
         }
 
         binding.tabPreviousOrders.setOnClickListener {
@@ -62,7 +52,6 @@ class BookingsFragment : Fragment() {
             binding.tabPreviousOrders.setTextColor(requireContext().getColor(R.color.white))
             binding.tabActiveOrders.background = null
             binding.tabActiveOrders.setTextColor(requireContext().getColor(R.color.text_muted))
-            // Here you would typically filter the list
         }
     }
 

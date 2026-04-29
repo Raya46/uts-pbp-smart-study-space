@@ -38,35 +38,26 @@ class StudySpotAdapter(private var spots: List<StudySpot>) :
         holder.binding.apply {
             tvSpotName.text = spot.name
             tvCategoryDistance.text = context.getString(R.string.category_distance_format, spot.category, spot.distance)
-            tvRating.text = spot.rating.toString()
-            tvReviewsCount.text = context.getString(R.string.reviews_count_format, spot.reviewsCount)
+            val reviewsCountText = context.getString(R.string.reviews_count_format, spot.reviewsCount)
+            tvRatingAndCount.text = context.getString(R.string.rating_reviews_format, spot.rating, reviewsCountText)
             tvAvailability.text = spot.availability
             tvTag.text = spot.tag
             ivSpotImage.setImageResource(spot.imageResId)
 
-            root.setOnClickListener {
+            val navigateToDetail = {
                 val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
-                    putExtra("SPOT_NAME", spot.name)
-                    putExtra("SPOT_CATEGORY", spot.category)
-                    putExtra("SPOT_DISTANCE", spot.distance)
-                    putExtra("SPOT_RATING", spot.rating)
-                    putExtra("SPOT_IMAGE", spot.imageResId)
-                    putExtra("SPOT_TAG", spot.tag)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_NAME, spot.name)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_CATEGORY, spot.category)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_DISTANCE, spot.distance)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_RATING, spot.rating)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_IMAGE, spot.imageResId)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_TAG, spot.tag)
                 }
                 context.startActivity(intent)
             }
 
-            btnReserve.setOnClickListener {
-                val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
-                    putExtra("SPOT_NAME", spot.name)
-                    putExtra("SPOT_CATEGORY", spot.category)
-                    putExtra("SPOT_DISTANCE", spot.distance)
-                    putExtra("SPOT_RATING", spot.rating)
-                    putExtra("SPOT_IMAGE", spot.imageResId)
-                    putExtra("SPOT_TAG", spot.tag)
-                }
-                context.startActivity(intent)
-            }
+            root.setOnClickListener { navigateToDetail() }
+            btnReserve.setOnClickListener { navigateToDetail() }
 
             cgFeatures.removeAllViews()
             spot.features.forEach { feature ->

@@ -67,7 +67,9 @@
     <string name="view_map">View Map</string>
     <string name="help_symbol">\?</string>
     <string name="category_distance_format">%1$s &#8226; %2$s</string>
+    <string name="rating_reviews_format">%1$.1f %2$s</string>
     <string name="reviews_count_format">(%1$d)</string>
+    <string name="rating_format">%1$.1f</string>
     <string name="btn_reserve">Reserve Now \u2192</string>
     <string name="desc_spot_image">Study spot image</string>
     <string name="desc_star_icon">Rating star icon</string>
@@ -93,4 +95,11 @@
     <string name="desc_calendar_icon">Calendar icon</string>
     <string name="desc_clock_icon">Clock icon</string>
     <string name="desc_seat_icon">Seat icon</string>
+    <string name="time_slot_1">8.00 &#8211; 9.00</string>
+    <string name="time_slot_2">9.00 &#8211; 10.00</string>
+    <string name="time_slot_3">13.00 &#8211; 14.00</string>
+    <string name="time_slot_4">14.00 &#8211; 15.00</string>
+    <string name="symbol_minus">—</string>
+    <string name="symbol_plus">+</string>
+    <string name="default_seats">2 orang</string>
 </resources>
