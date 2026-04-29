@@ -16,21 +16,19 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // Atur halaman default saat pertama buka (Misal: langsung ke Profile)
-        replaceFragment(ProfileFragment())
-        binding.bottomNavigationView.selectedItemId = R.id.nav_profile
+        // Atur halaman default saat pertama buka (Misal: langsung ke Home)
+        replaceFragment(HomeFragment())
+        binding.bottomNavigationView.selectedItemId = R.id.nav_home
 
         // Listener untuk navigasi bawah
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    // TODO: Ganti dengan HomeFragment()
-//                     replaceFragment(HomeFragment())
+                    replaceFragment(HomeFragment())
                     true
                 }
                 R.id.nav_bookings -> {
-                    // TODO: Ganti dengan BookingsFragment()
-//                     replaceFragment(BookingsFragment())
+                    replaceFragment(BookingsFragment())
                     true
                 }
                 R.id.nav_profile -> {
