@@ -11,6 +11,9 @@ class StudySpotDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudySpotDetailBinding
 
+    private var selectedDate = ""
+    private var selectedTime = ""
+
     companion object {
         const val EXTRA_SPOT_NAME = "SPOT_NAME"
         const val EXTRA_SPOT_CATEGORY = "SPOT_CATEGORY"
@@ -33,6 +36,11 @@ class StudySpotDetailActivity : AppCompatActivity() {
         setupDateSelector()
         setupCounter()
         setupTabs()
+        setupTimeSlot()
+
+        binding.btnReserveNowDetail.setOnClickListener {
+            showSuccessDialog()
+        }
     }
 
     private fun setupData() {
@@ -109,6 +117,20 @@ class StudySpotDetailActivity : AppCompatActivity() {
                 dateBinding.tvDayDate.setTextColor(getColor(R.color.white))
             }
 
+            dateBinding.root.setOnClickListener {
+                selectedDate = date.second
+
+                for (i in 0 until binding.llDateSelector.childCount) {
+                    val child = binding.llDateSelector.getChildAt(i)
+                    child.setBackgroundResource(R.drawable.bg_tab_container)
+                }
+
+                // highlight yang dipilih
+                dateBinding.root.setBackgroundResource(R.drawable.bg_item_selected)
+                dateBinding.tvDayName.setTextColor(getColor(R.color.white))
+                dateBinding.tvDayDate.setTextColor(getColor(R.color.white))
+            }
+
             binding.llDateSelector.addView(dateBinding.root)
         }
     }
@@ -126,6 +148,40 @@ class StudySpotDetailActivity : AppCompatActivity() {
             if (count > 1) {
                 count--
                 binding.tvSeatCount.text = getString(R.string.format_seats, count)
+            }
+        }
+    }
+
+    private fun showSuccessDialog() {
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Success")
+            .setMessage("Your reservation has been successfully booked!")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun setupTimeSlot() {
+        val timeViews = listOf(
+            binding.time1,
+            binding.time2,
+            binding.time3,
+            binding.time4
+        )
+
+        timeViews.forEach { view ->
+            view.setOnClickListener {
+
+                timeViews.forEach {
+                    it.setBackgroundResource(R.drawable.bg_tab_container)
+                    it.setTextColor(getColor(R.color.text_muted))
+                }
+
+                view.setBackgroundResource(R.drawable.bg_item_selected)
+                view.setTextColor(getColor(R.color.white))
+
+                selectedTime = view.text.toString()
             }
         }
     }
