@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  avatar     String   @default("")
+  university String   @default("")
+  major      String   @default("")
+  created_at DateTime @default(now())
+
+  bookings        Booking[]
+  study_preference StudyPreference?
+  favorites        Favorite[]
+  reviews          Review[]
+
+  @@map("users")
+}
+
+model StudySpot {
+  id             Int      @id @default(autoincrement())
+  name           String
+  category       String
+  distance       String   @default("")
+  rating         Float    @default(0.0)
+  reviews_count  Int      @default(0)
+  availability   String   @default("")
+  image_url      String   @default("")
+  tag            String   @default("")
+  features       String[] @default([])
+
+  bookings Booking[]
+  favorites Favorite[]
+  reviews   Review[]
+
+  @@map("study_spots")
+}
+
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  spot_id    Int
+  created_at DateTime @default(now())
+
+  user User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  spot StudySpot @relation(fields: [spot_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, spot_id])
+  @@map("favorites")
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  spot_id    Int
+  rating     Int
+  comment    String   @default("")
+  created_at DateTime @default(now())
+
+  user User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  spot StudySpot @relation(fields: [spot_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, spot_id])
+  @@map("reviews")
+}
+
+model Booking {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  spot_id    Int
+  date       String
+  time_slot  String
+  seats      Int      @default(1)
+  status     String   @default("Upcoming")
+  created_at DateTime @default(now())
+
+  user User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  spot StudySpot @relation(fields: [spot_id], references: [id], onDelete: Cascade)
+
+  @@map("bookings")
+}
+
+model StudyPreference {
+  id          Int      @id @default(autoincrement())
+  user_id     Int      @unique
+  preferences String[] @default([])
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("study_preferences")
+}

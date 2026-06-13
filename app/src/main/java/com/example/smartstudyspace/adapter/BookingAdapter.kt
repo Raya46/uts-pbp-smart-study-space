@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartstudyspace.R
 import com.example.smartstudyspace.StudySpotDetailActivity
 import com.example.smartstudyspace.data.Booking
 import com.example.smartstudyspace.databinding.ItemBookingBinding
@@ -39,31 +38,31 @@ class BookingAdapter(private var bookings: List<Booking>) :
             tvBookingCategory.text = booking.category
             tvBookingDate.text = booking.date
             tvBookingTime.text = booking.timeSlot
-            tvBookingSeats.text = context.getString(R.string.format_booking_seats, booking.seats)
+            tvBookingSeats.text = context.getString(com.example.smartstudyspace.R.string.format_booking_seats, booking.seats)
             tvBookingStatus.text = booking.status
 
-            // Handle Status UI
             when (booking.status) {
                 "Active" -> {
-                    tvBookingStatus.setBackgroundResource(R.drawable.bg_item_selected)
-                    tvBookingStatus.setTextColor(context.getColor(R.color.white))
+                    tvBookingStatus.setBackgroundResource(com.example.smartstudyspace.R.drawable.bg_item_selected)
+                    tvBookingStatus.setTextColor(context.getColor(com.example.smartstudyspace.R.color.white))
                 }
                 "Completed" -> {
-                    tvBookingStatus.setBackgroundResource(R.drawable.bg_tab_container)
-                    tvBookingStatus.setTextColor(context.getColor(R.color.text_muted))
+                    tvBookingStatus.setBackgroundResource(com.example.smartstudyspace.R.drawable.bg_tab_container)
+                    tvBookingStatus.setTextColor(context.getColor(com.example.smartstudyspace.R.color.text_muted))
                 }
                 "Cancelled" -> {
-                    tvBookingStatus.setBackgroundResource(R.drawable.bg_tab_container)
+                    tvBookingStatus.setBackgroundResource(com.example.smartstudyspace.R.drawable.bg_tab_container)
                     tvBookingStatus.setTextColor(android.graphics.Color.RED)
                 }
-                else -> { // Upcoming
-                    tvBookingStatus.setBackgroundResource(R.drawable.bg_tag_orange)
-                    tvBookingStatus.setTextColor(context.getColor(R.color.text_dark_green))
+                else -> {
+                    tvBookingStatus.setBackgroundResource(com.example.smartstudyspace.R.drawable.bg_tag_orange)
+                    tvBookingStatus.setTextColor(context.getColor(com.example.smartstudyspace.R.color.text_dark_green))
                 }
             }
 
             btnViewDetail.setOnClickListener {
                 val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_ID, booking.spotId)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_NAME, booking.spotName)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_CATEGORY, booking.category)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_IMAGE, booking.imageResId)

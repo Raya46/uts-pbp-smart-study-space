@@ -17,3 +17,5 @@ Thumbs.db
 # Build/Dist
 dist/
 build/
+
+/src/generated/prisma

@@ -16,11 +16,9 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // Atur halaman default saat pertama buka (Misal: langsung ke Home)
         replaceFragment(HomeFragment())
         binding.bottomNavigationView.selectedItemId = R.id.nav_home
 
-        // Listener untuk navigasi bawah
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {

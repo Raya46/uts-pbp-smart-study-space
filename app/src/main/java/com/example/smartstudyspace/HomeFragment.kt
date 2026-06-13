@@ -6,12 +6,16 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smartstudyspace.adapter.StudySpotAdapter
-import com.example.smartstudyspace.data.MockDataProvider
+import com.example.smartstudyspace.data.ImageResolver
 import com.example.smartstudyspace.data.StudySpot
+import com.example.smartstudyspace.data.api.RetrofitClient
 import com.example.smartstudyspace.databinding.FragmentHomeBinding
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -32,14 +36,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        allSpots = MockDataProvider.getStudySpots(requireContext())
         setupRecyclerView()
         setupFilters()
         setupSearch()
+        fetchSpots()
     }
 
     private fun setupRecyclerView() {
-        studySpotAdapter = StudySpotAdapter(allSpots)
+        studySpotAdapter = StudySpotAdapter(emptyList())
         binding.rvStudySpots.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = studySpotAdapter
@@ -60,6 +64,36 @@ class HomeFragment : Fragment() {
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
+
+    private fun fetchSpots() {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getSpots()
+                if (response.isSuccessful) {
+                    val spotDtos = response.body()!!.spots
+                    allSpots = spotDtos.map { dto ->
+                        StudySpot(
+                            id = dto.id,
+                            name = dto.name,
+                            category = dto.category,
+                            distance = dto.distance,
+                            rating = dto.rating,
+                            reviewsCount = dto.reviewsCount,
+                            availability = dto.availability,
+                            imageResId = ImageResolver.resolveDrawable(requireContext(), dto.imageUrl),
+                            tag = dto.tag,
+                            features = dto.features
+                        )
+                    }
+                    studySpotAdapter.updateList(allSpots)
+                } else {
+                    Toast.makeText(context, "Gagal memuat data", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Gagal memuat data: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun filterContent() {

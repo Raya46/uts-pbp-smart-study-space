@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartstudyspace.R
 import com.example.smartstudyspace.StudySpotDetailActivity
+import com.example.smartstudyspace.data.ImageResolver
 import com.example.smartstudyspace.data.StudySpot
 import com.example.smartstudyspace.databinding.ItemStudySpotBinding
 import com.google.android.material.chip.Chip
@@ -37,15 +37,19 @@ class StudySpotAdapter(private var spots: List<StudySpot>) :
         val context = holder.binding.root.context
         holder.binding.apply {
             tvSpotName.text = spot.name
-            tvCategoryDistance.text = context.getString(R.string.category_distance_format, spot.category, spot.distance)
-            val reviewsCountText = context.getString(R.string.reviews_count_format, spot.reviewsCount)
-            tvRatingAndCount.text = context.getString(R.string.rating_reviews_format, spot.rating, reviewsCountText)
+            tvCategoryDistance.text = context.getString(com.example.smartstudyspace.R.string.category_distance_format, spot.category, spot.distance)
+            val reviewsCountText = context.getString(com.example.smartstudyspace.R.string.reviews_count_format, spot.reviewsCount)
+            tvRatingAndCount.text = context.getString(com.example.smartstudyspace.R.string.rating_reviews_format, spot.rating, reviewsCountText)
             tvAvailability.text = spot.availability
             tvTag.text = spot.tag
-            ivSpotImage.setImageResource(spot.imageResId)
+
+            if (spot.imageResId != 0) {
+                ivSpotImage.setImageResource(spot.imageResId)
+            }
 
             val navigateToDetail = {
                 val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_ID, spot.id)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_NAME, spot.name)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_CATEGORY, spot.category)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_DISTANCE, spot.distance)

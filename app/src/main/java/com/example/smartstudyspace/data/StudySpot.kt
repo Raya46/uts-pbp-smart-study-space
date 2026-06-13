@@ -8,7 +8,8 @@ data class StudySpot(
     val rating: Double,
     val reviewsCount: Int,
     val availability: String,
-    val imageResId: Int,
-    val tag: String, // e.g., "Quiet", "Moderate"
-    val features: List<String> // e.g., ["WiFi", "AC", "Power"]
+    val imageResId: Int = 0,
+    val imageUrl: String = "",
+    val tag: String,
+    val features: List<String>
 )

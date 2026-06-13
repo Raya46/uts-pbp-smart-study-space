@@ -4,7 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.smartstudyspace.data.api.RetrofitClient
+import com.example.smartstudyspace.data.model.RegisterStep1Request
 import com.example.smartstudyspace.databinding.ActivityRegisterStep1Binding
+import kotlinx.coroutines.launch
 
 class RegisterStep1Activity : AppCompatActivity() {
 
@@ -17,17 +21,14 @@ class RegisterStep1Activity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // Tombol Back
         binding.btnBack.setOnClickListener {
-            finish() // Kembali ke halaman Login
+            finish()
         }
 
-        // Teks Login di bawah
         binding.tvLogin.setOnClickListener {
-            finish() // Sama, menutup activity ini dan kembali ke Login
+            finish()
         }
 
-        // Tombol Continue -> Lanjut ke Step 2
         binding.btnContinue.setOnClickListener {
             val name = binding.etFullName.text.toString()
             val email = binding.etEmail.text.toString()
@@ -35,8 +36,27 @@ class RegisterStep1Activity : AppCompatActivity() {
             val confirmPass = binding.etConfirmPassword.text.toString()
 
             if (name.isNotEmpty() && email.isNotEmpty() && pass.isNotEmpty() && pass == confirmPass) {
-                 val intent = Intent(this, RegisterStep2Activity::class.java)
-                 startActivity(intent)
+                lifecycleScope.launch {
+                    try {
+                        val response = RetrofitClient.apiService.registerStep1(
+                            RegisterStep1Request(name, email, pass)
+                        )
+                        if (response.isSuccessful) {
+                            val result = response.body()!!
+                            val intent = Intent(this@RegisterStep1Activity, RegisterStep2Activity::class.java).apply {
+                                putExtra("USER_ID", result.userId)
+                                putExtra("USER_NAME", name)
+                                putExtra("USER_EMAIL", email)
+                            }
+                            startActivity(intent)
+                        } else {
+                            val errorMsg = response.errorBody()?.string() ?: "Registrasi gagal"
+                            Toast.makeText(this@RegisterStep1Activity, errorMsg, Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this@RegisterStep1Activity, "Koneksi gagal: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
             } else {
                 Toast.makeText(this, "Periksa kembali data Anda", Toast.LENGTH_SHORT).show()
             }

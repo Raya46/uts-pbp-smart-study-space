@@ -327,6 +327,45 @@
                             android:src="@drawable/img_3"
                             android:contentDescription="@string/view_map" />
                     </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:id="@+id/favoriteReviewBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <ImageButton
+                            android:id="@+id/btnFavorite"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@android:drawable/btn_star_big_off"
+                            android:contentDescription="Favorite" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddReview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:text="Add Review"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            app:backgroundTint="@color/text_dark_green"
+                            app:cornerRadius="24dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvReviewsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Reviews"
+                        android:textColor="@color/text_dark_green"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

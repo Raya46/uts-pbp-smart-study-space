@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smartstudyspace.adapter.BookingAdapter
 import com.example.smartstudyspace.data.Booking
-import com.example.smartstudyspace.data.MockDataProvider
+import com.example.smartstudyspace.data.ImageResolver
+import com.example.smartstudyspace.data.SessionManager
+import com.example.smartstudyspace.data.api.RetrofitClient
 import com.example.smartstudyspace.databinding.FragmentBookingsBinding
+import kotlinx.coroutines.launch
 
 class BookingsFragment : Fragment() {
 
@@ -30,12 +35,9 @@ class BookingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        allBookings = MockDataProvider.getBookings(requireContext())
         setupRecyclerView()
         setupTabs()
-        
-        // Default show Active Orders
-        filterBookings(isActive = true)
+        fetchBookings("active")
     }
 
     private fun setupRecyclerView() {
@@ -49,12 +51,12 @@ class BookingsFragment : Fragment() {
     private fun setupTabs() {
         binding.tabActiveOrders.setOnClickListener {
             updateTabUI(isActiveSelected = true)
-            filterBookings(isActive = true)
+            fetchBookings("active")
         }
 
         binding.tabPreviousOrders.setOnClickListener {
             updateTabUI(isActiveSelected = false)
-            filterBookings(isActive = false)
+            fetchBookings("previous")
         }
     }
 
@@ -74,13 +76,36 @@ class BookingsFragment : Fragment() {
         }
     }
 
-    private fun filterBookings(isActive: Boolean) {
-        val filteredList = if (isActive) {
-            allBookings.filter { it.status == "Upcoming" || it.status == "Active" }
-        } else {
-            allBookings.filter { it.status == "Completed" || it.status == "Cancelled" }
+    private fun fetchBookings(status: String) {
+        if (!SessionManager.isLoggedIn()) return
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getBookings(status)
+                if (response.isSuccessful) {
+                    val bookingDtos = response.body()!!.bookings
+                    allBookings = bookingDtos.map { dto ->
+                        Booking(
+                            id = dto.id,
+                            spotId = dto.spotId,
+                            spotName = dto.spotName,
+                            category = dto.category,
+                            date = dto.date,
+                            timeSlot = dto.timeSlot,
+                            seats = dto.seats,
+                            status = dto.status,
+                            imageResId = ImageResolver.resolveDrawable(requireContext(), dto.imageUrl),
+                            tag = dto.tag
+                        )
+                    }
+                    bookingAdapter.updateList(allBookings)
+                } else {
+                    Toast.makeText(context, "Gagal memuat booking", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Gagal memuat booking: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
-        bookingAdapter.updateList(filteredList)
     }
 
     override fun onDestroyView() {
