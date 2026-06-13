@@ -303,11 +303,14 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvViewOnMap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center_vertical"
-                        android:text="@string/view_in_google_maps"
+                        android:text="@string/view_on_map"
                         android:textColor="@color/text_dark_green"
                         android:textStyle="bold"
                         app:drawableEndCompat="@android:drawable/ic_menu_directions"
@@ -320,12 +323,10 @@
                         android:layout_marginTop="16dp"
                         app:cardCornerRadius="24dp"
                         app:strokeWidth="0dp">
-                        <ImageView
+                        <org.osmdroid.views.MapView
+                            android:id="@+id/mapView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/img_3"
-                            android:contentDescription="@string/view_map" />
+                            android:layout_height="match_parent" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout

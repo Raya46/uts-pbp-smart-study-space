@@ -36,6 +36,8 @@ model StudySpot {
   image_url      String   @default("")
   tag            String   @default("")
   features       String[] @default([])
+  latitude       Float    @default(0.0)
+  longitude      Float    @default(0.0)
 
   bookings Booking[]
   favorites Favorite[]

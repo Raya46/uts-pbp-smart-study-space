@@ -21,6 +21,8 @@ async function main() {
         image_url: 'bg_library',
         tag: 'Quiet',
         features: ['WiFi', 'AC', 'Power'],
+        latitude: -6.2564,
+        longitude: 106.7986,
       },
       {
         name: 'Kampus Café',
@@ -32,6 +34,8 @@ async function main() {
         image_url: 'img_1',
         tag: 'Moderate',
         features: ['Coffee', 'WiFi', 'AC'],
+        latitude: -6.2550,
+        longitude: 106.8000,
       },
       {
         name: 'Working Hub',
@@ -43,6 +47,8 @@ async function main() {
         image_url: 'img_2',
         tag: 'Quiet',
         features: ['WiFi', 'Power', 'Printer'],
+        latitude: -6.2600,
+        longitude: 106.7950,
       },
     ],
   });

@@ -56,6 +56,8 @@ class StudySpotAdapter(private var spots: List<StudySpot>) :
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_RATING, spot.rating)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_IMAGE, spot.imageResId)
                     putExtra(StudySpotDetailActivity.EXTRA_SPOT_TAG, spot.tag)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_LATITUDE, spot.latitude)
+                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_LONGITUDE, spot.longitude)
                 }
                 context.startActivity(intent)
             }

@@ -58,7 +58,9 @@ data class SpotDto(
     val availability: String,
     @SerializedName("image_url") val imageUrl: String,
     val tag: String,
-    val features: List<String>
+    val features: List<String>,
+    val latitude: Double,
+    val longitude: Double
 )
 
 data class BookingsResponse(val bookings: List<BookingDto>)

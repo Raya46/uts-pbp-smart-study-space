@@ -1,6 +1,7 @@
 package com.example.smartstudyspace.data.api
 
 import com.example.smartstudyspace.data.model.*
+import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -19,6 +20,9 @@ interface ApiService {
 
     @GET("api/spots/{id}")
     suspend fun getSpotDetail(@Path("id") id: Int): Response<SpotDetailResponse>
+
+    @GET("api/spots/{id}")
+    suspend fun getSpotDetailRaw(@Path("id") id: Int): Response<JsonObject>
 
     @GET("api/bookings")
     suspend fun getBookings(@Query("status") status: String? = null): Response<BookingsResponse>

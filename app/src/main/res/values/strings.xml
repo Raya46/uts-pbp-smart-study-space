@@ -83,7 +83,7 @@
     <string name="today">Today</string>
     <string name="label_address">Alamat</string>
     <string name="sample_address">Jl. Pd. Labu Raya, Pd. Labu, Kec. Cilandak, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12450</string>
-    <string name="view_in_google_maps">View in Google Maps</string>
+    <string name="view_on_map">View on Map</string>
     <string name="title_bookings">My Bookings</string>
     <string name="subtitle_bookings">Manage your active and past reservations</string>
     <string name="tab_active_orders">Active Orders</string>

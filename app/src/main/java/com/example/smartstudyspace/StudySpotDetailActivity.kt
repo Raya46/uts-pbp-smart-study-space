@@ -1,5 +1,7 @@
 package com.example.smartstudyspace
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +17,22 @@ import com.example.smartstudyspace.data.model.FavoriteToggleRequest
 import com.example.smartstudyspace.databinding.ActivityStudySpotDetailBinding
 import com.example.smartstudyspace.databinding.ItemDateSelectorBinding
 import kotlinx.coroutines.launch
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
 
 class StudySpotDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudySpotDetailBinding
 
     private var spotId: Int = 0
+    private var spotLatitude: Double = 0.0
+    private var spotLongitude: Double = 0.0
     private var selectedDate = ""
     private var selectedTime = ""
     private var seatCount = 2
+    private var mapInitialized = false
 
     companion object {
         const val EXTRA_SPOT_ID = "SPOT_ID"
@@ -34,28 +43,40 @@ class StudySpotDetailActivity : AppCompatActivity() {
         const val EXTRA_SPOT_IMAGE = "SPOT_IMAGE"
         const val EXTRA_SPOT_TAG = "SPOT_TAG"
         const val EXTRA_SPOT_IMAGE_URL = "SPOT_IMAGE_URL"
+        const val EXTRA_SPOT_LATITUDE = "SPOT_LATITUDE"
+        const val EXTRA_SPOT_LONGITUDE = "SPOT_LONGITUDE"
 
         private const val DEFAULT_SEAT_COUNT = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Configuration.getInstance().apply {
+            userAgentValue = packageName
+            osmdroidTileCache = cacheDir.resolve("tiles")
+        }
+
         binding = ActivityStudySpotDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
 
         spotId = intent.getIntExtra(EXTRA_SPOT_ID, 0)
+        spotLatitude = intent.getDoubleExtra(EXTRA_SPOT_LATITUDE, 0.0)
+        spotLongitude = intent.getDoubleExtra(EXTRA_SPOT_LONGITUDE, 0.0)
         setupData()
         setupDateSelector()
         setupCounter()
         setupTabs()
         setupTimeSlot()
+        initMap()
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnReserveNowDetail.setOnClickListener { createBooking() }
         binding.btnFavorite.setOnClickListener { toggleFavorite() }
         binding.btnAddReview.setOnClickListener { showReviewDialog() }
+        binding.tvViewOnMap.setOnClickListener { openMap() }
 
         checkFavoriteStatus()
         loadReviews()
@@ -105,6 +126,12 @@ class StudySpotDetailActivity : AppCompatActivity() {
                 llDetailContent.visibility = View.VISIBLE
                 btnReserveNowDetail.visibility = View.GONE
                 favoriteReviewBar.visibility = View.VISIBLE
+
+                mapView.onResume()
+                if (!mapInitialized && spotId > 0) {
+                    fetchSpotAndUpdateMap()
+                    mapInitialized = true
+                }
             }
         }
     }
@@ -319,5 +346,87 @@ class StudySpotDetailActivity : AppCompatActivity() {
                 }
             } catch (_: Exception) { }
         }
+    }
+
+    private fun openMap() {
+        if (spotLatitude == 0.0 && spotLongitude == 0.0) {
+            fetchSpotAndOpenMap()
+            return
+        }
+        launchMapIntent()
+    }
+
+    private fun fetchSpotAndOpenMap() {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getSpotDetailRaw(spotId)
+                if (response.isSuccessful) {
+                    val spot = response.body()!!.getAsJsonObject("spot")
+                    spotLatitude = spot.get("latitude")?.asDouble ?: 0.0
+                    spotLongitude = spot.get("longitude")?.asDouble ?: 0.0
+                    launchMapIntent()
+                } else {
+                    Toast.makeText(this@StudySpotDetailActivity, "Lokasi tidak tersedia", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@StudySpotDetailActivity, "Lokasi tidak tersedia: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun launchMapIntent() {
+        val uri = Uri.parse("https://www.google.com/maps?q=$spotLatitude,$spotLongitude")
+        startActivity(Intent(Intent.ACTION_VIEW, uri))
+    }
+
+    private fun initMap() {
+        binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+        binding.mapView.setMultiTouchControls(true)
+        binding.mapView.controller.setZoom(16.0)
+    }
+
+    private fun fetchSpotAndUpdateMap() {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getSpotDetailRaw(spotId)
+                if (response.isSuccessful) {
+                    val spot = response.body()!!.getAsJsonObject("spot")
+                    spotLatitude = spot.get("latitude")?.asDouble ?: 0.0
+                    spotLongitude = spot.get("longitude")?.asDouble ?: 0.0
+                    if (spotLatitude != 0.0 || spotLongitude != 0.0) {
+                        updateMapMarker()
+                    } else {
+                        Toast.makeText(this@StudySpotDetailActivity, "Lokasi spot tidak tersedia", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@StudySpotDetailActivity, "Gagal memuat lokasi spot", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@StudySpotDetailActivity, "Gagal memuat lokasi spot: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateMapMarker() {
+        val point = GeoPoint(spotLatitude, spotLongitude)
+        binding.mapView.controller.setZoom(16.0)
+        binding.mapView.controller.setCenter(point)
+        binding.mapView.overlays.clear()
+        val marker = Marker(binding.mapView)
+        marker.position = point
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        marker.title = binding.tvDetailName.text.toString()
+        binding.mapView.overlays.add(marker)
+        binding.mapView.invalidate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.mapView.onPause()
     }
 }

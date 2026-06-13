@@ -11,5 +11,7 @@ data class StudySpot(
     val imageResId: Int = 0,
     val imageUrl: String = "",
     val tag: String,
-    val features: List<String>
+    val features: List<String>,
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
 )

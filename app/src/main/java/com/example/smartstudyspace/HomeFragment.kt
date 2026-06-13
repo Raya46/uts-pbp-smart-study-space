@@ -1,5 +1,7 @@
 package com.example.smartstudyspace
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -40,6 +42,8 @@ class HomeFragment : Fragment() {
         setupFilters()
         setupSearch()
         fetchSpots()
+
+        binding.tvViewMap.setOnClickListener { openMapForFirstSpot() }
     }
 
     private fun setupRecyclerView() {
@@ -83,7 +87,9 @@ class HomeFragment : Fragment() {
                             availability = dto.availability,
                             imageResId = ImageResolver.resolveDrawable(requireContext(), dto.imageUrl),
                             tag = dto.tag,
-                            features = dto.features
+                            features = dto.features,
+                            latitude = dto.latitude,
+                            longitude = dto.longitude,
                         )
                     }
                     studySpotAdapter.updateList(allSpots)
@@ -103,15 +109,48 @@ class HomeFragment : Fragment() {
         val filteredList = allSpots.filter { spot ->
             val matchesSearch = spot.name.lowercase().contains(searchQuery)
             val matchesCategory = when (checkedChipId) {
-                R.id.chipCafe -> spot.category == getString(R.string.cat_cafe)
-                R.id.chipLibrary -> spot.category == getString(R.string.cat_library)
-                R.id.chipWorkingSpace -> spot.category == getString(R.string.cat_working_space)
+                R.id.chipCafe -> spot.category == "Cafe"
+                R.id.chipLibrary -> spot.category == "Library"
+                R.id.chipWorkingSpace -> spot.category == "Working Space"
                 else -> true
             }
             matchesSearch && matchesCategory
         }
 
         studySpotAdapter.updateList(filteredList)
+    }
+
+    private fun openMapForFirstSpot() {
+        if (allSpots.isEmpty()) return
+        val spot = allSpots.first()
+        if (spot.latitude != 0.0 || spot.longitude != 0.0) {
+            openMap(spot.latitude, spot.longitude, spot.name)
+        } else {
+            fetchAndOpenMap(spot.id, spot.name)
+        }
+    }
+
+    private fun fetchAndOpenMap(spotId: Int, name: String) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getSpotDetailRaw(spotId)
+                if (response.isSuccessful) {
+                    val spotObj = response.body()!!.getAsJsonObject("spot")
+                    val lat = spotObj.get("latitude")?.asDouble ?: 0.0
+                    val lng = spotObj.get("longitude")?.asDouble ?: 0.0
+                    openMap(lat, lng, name)
+                } else {
+                    Toast.makeText(context, "Lokasi tidak tersedia", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Gagal memuat lokasi: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun openMap(lat: Double, lng: Double, label: String) {
+        val uri = Uri.parse("https://www.google.com/maps?q=$lat,$lng")
+        startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 
     override fun onDestroyView() {

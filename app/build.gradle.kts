@@ -62,6 +62,9 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    // osmdroid
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
