@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,54 +11,48 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SMARTSTUDYSPACE">
-
+        android:theme="@style/Theme.SMARTSTUDYSPACE"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".BookingDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".OnboardingActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".RegisterStep1Activity"
             android:exported="false" />
-
         <activity
             android:name=".RegisterStep2Activity"
             android:exported="false" />
-
         <activity
             android:name=".RegisterStep3Activity"
             android:exported="false" />
-
         <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
-
         <activity
             android:name=".StudyPreferencesActivity"
             android:exported="false" />
-
         <activity
             android:name=".StudySpotDetailActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

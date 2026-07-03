@@ -7,6 +7,10 @@ import com.example.smartstudyspace.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_OPEN_BOOKINGS = "OPEN_BOOKINGS"
+    }
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,9 +20,17 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        replaceFragment(HomeFragment())
-        binding.bottomNavigationView.selectedItemId = R.id.nav_home
-
+        val openBookings =
+            intent.getBooleanExtra(EXTRA_OPEN_BOOKINGS, false)
+        if (openBookings) {
+            replaceFragment(BookingsFragment())
+            binding.bottomNavigationView.selectedItemId =
+                R.id.nav_bookings
+        } else {
+            replaceFragment(HomeFragment())
+            binding.bottomNavigationView.selectedItemId =
+                R.id.nav_home
+        }
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
