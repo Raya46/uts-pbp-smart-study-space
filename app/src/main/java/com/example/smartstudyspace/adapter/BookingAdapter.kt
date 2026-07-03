@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartstudyspace.StudySpotDetailActivity
+import com.example.smartstudyspace.BookingDetailActivity
 import com.example.smartstudyspace.data.Booking
 import com.example.smartstudyspace.databinding.ItemBookingBinding
 
@@ -61,12 +61,14 @@ class BookingAdapter(private var bookings: List<Booking>) :
             }
 
             btnViewDetail.setOnClickListener {
-                val intent = Intent(context, StudySpotDetailActivity::class.java).apply {
-                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_ID, booking.spotId)
-                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_NAME, booking.spotName)
-                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_CATEGORY, booking.category)
-                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_IMAGE, booking.imageResId)
-                    putExtra(StudySpotDetailActivity.EXTRA_SPOT_TAG, booking.tag)
+                val intent = Intent(
+                    context,
+                    BookingDetailActivity::class.java
+                ).apply {
+                    putExtra(
+                        BookingDetailActivity.EXTRA_BOOKING_ID,
+                        booking.id
+                    )
                 }
                 context.startActivity(intent)
             }

@@ -159,3 +159,19 @@ data class CreateReviewResponse(
     val review: ReviewDto,
     val message: String
 )
+
+data class BookingDetailResponse(
+    val booking: BookingDto
+)
+
+data class CheckInBookingResponse(
+    val message: String
+)
+
+data class EndBookingResponse(
+    val message: String
+)
+
+data class CancelBookingResponse(
+    val message: String
+)

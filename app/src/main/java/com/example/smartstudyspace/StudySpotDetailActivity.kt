@@ -9,6 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import com.example.smartstudyspace.databinding.BottomSheetConfirmBookingBinding
 import com.example.smartstudyspace.data.SessionManager
 import com.example.smartstudyspace.data.api.RetrofitClient
 import com.example.smartstudyspace.data.model.CreateBookingRequest
@@ -21,6 +25,9 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class StudySpotDetailActivity : AppCompatActivity() {
 
@@ -33,6 +40,7 @@ class StudySpotDetailActivity : AppCompatActivity() {
     private var selectedTime = ""
     private var seatCount = 2
     private var mapInitialized = false
+    private var confirmDialog: Dialog? = null
 
     companion object {
         const val EXTRA_SPOT_ID = "SPOT_ID"
@@ -73,7 +81,7 @@ class StudySpotDetailActivity : AppCompatActivity() {
         initMap()
 
         binding.btnBack.setOnClickListener { finish() }
-        binding.btnReserveNowDetail.setOnClickListener { createBooking() }
+        binding.btnReserveNowDetail.setOnClickListener {showConfirmBookingDialog() }
         binding.btnFavorite.setOnClickListener { toggleFavorite() }
         binding.btnAddReview.setOnClickListener { showReviewDialog() }
         binding.tvViewOnMap.setOnClickListener { openMap() }
@@ -136,39 +144,36 @@ class StudySpotDetailActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setupDateSelector() {
-        val dates = listOf(
-            Triple(getString(R.string.today), "20", true),
-            Triple("Tue", "21", false),
-            Triple("Wed", "22", false),
-            Triple("Thu", "23", false),
-            Triple("Fri", "24", false),
-            Triple("Sat", "25", false)
-        )
-
-        dates.forEach { date ->
-            val dateBinding = ItemDateSelectorBinding.inflate(LayoutInflater.from(this), binding.llDateSelector, false)
-            dateBinding.tvDayName.text = date.first
-            dateBinding.tvDayDate.text = date.second
-
-            if (date.third) {
-                dateBinding.root.setBackgroundResource(R.drawable.bg_item_selected)
-                dateBinding.tvDayName.setTextColor(getColor(R.color.white))
-                dateBinding.tvDayDate.setTextColor(getColor(R.color.white))
-                selectedDate = date.second
+        val calendar = Calendar.getInstance()
+        val displayFormat = SimpleDateFormat("dd", Locale.getDefault())
+        val fullFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
+        val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
+        for (i in 0 until 6) {
+            val currentDate = calendar.time
+            val dayName = if (i == 0) {
+                getString(R.string.today)
+            } else {
+                dayFormat.format(currentDate)
             }
-
+            val dayNumber = displayFormat.format(currentDate)
+            val fullDate = fullFormat.format(currentDate)
+            val dateBinding = ItemDateSelectorBinding.inflate(
+                LayoutInflater.from(this),
+                binding.llDateSelector,
+                false
+            )
+            dateBinding.tvDayName.text = dayName
+            dateBinding.tvDayDate.text = dayNumber
+            if (i == 0) {
+                selectedDate = fullDate
+            }
             dateBinding.root.setOnClickListener {
-                selectedDate = date.second
-                for (i in 0 until binding.llDateSelector.childCount) {
-                    binding.llDateSelector.getChildAt(i).setBackgroundResource(R.drawable.bg_tab_container)
-                }
-                dateBinding.root.setBackgroundResource(R.drawable.bg_item_selected)
-                dateBinding.tvDayName.setTextColor(getColor(R.color.white))
-                dateBinding.tvDayDate.setTextColor(getColor(R.color.white))
+                selectedDate = fullDate
             }
-
             binding.llDateSelector.addView(dateBinding.root)
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
     }
 
@@ -189,32 +194,129 @@ class StudySpotDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun showConfirmBookingDialog() {
+
+        confirmDialog = Dialog(this)
+
+        val dialogBinding =
+            BottomSheetConfirmBookingBinding.inflate(layoutInflater)
+
+        confirmDialog?.setContentView(dialogBinding.root)
+
+        confirmDialog?.window?.setBackgroundDrawable(
+            ColorDrawable(Color.TRANSPARENT)
+        )
+
+        confirmDialog?.window?.setLayout(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        confirmDialog?.window?.attributes?.windowAnimations =
+            android.R.style.Animation_Dialog
+
+        confirmDialog?.window?.setGravity(android.view.Gravity.BOTTOM)
+
+        val imageRes = intent.getIntExtra(
+            EXTRA_SPOT_IMAGE,
+            R.drawable.bg_library
+        )
+
+        dialogBinding.ivSpotImage.setImageResource(imageRes)
+
+        dialogBinding.tvSpotName.text =
+            intent.getStringExtra(EXTRA_SPOT_NAME)
+                ?: "Study Spot"
+
+        dialogBinding.tvCategory.text =
+            intent.getStringExtra(EXTRA_SPOT_CATEGORY)
+                ?: ""
+
+        dialogBinding.tvBookingDate.text = selectedDate
+
+        dialogBinding.tvBookingTime.text = selectedTime
+
+        dialogBinding.tvBookingSeat.text =
+            getString(R.string.format_seats, seatCount)
+
+        dialogBinding.btnCancel.setOnClickListener {
+            confirmDialog?.dismiss()
+        }
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            confirmDialog?.dismiss()
+            createBooking()
+        }
+        confirmDialog?.show()
+
+    }
+
     private fun createBooking() {
+
         if (!SessionManager.isLoggedIn()) {
-            Toast.makeText(this, "Silakan login terlebih dahulu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Silakan login terlebih dahulu",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
+
         if (selectedDate.isEmpty() || selectedTime.isEmpty()) {
-            Toast.makeText(this, "Pilih tanggal dan waktu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Pilih tanggal dan waktu terlebih dahulu",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.apiService.createBooking(
-                    CreateBookingRequest(spotId, selectedDate, selectedTime, seatCount)
-                )
+                val response =
+                    RetrofitClient.apiService.createBooking(
+                        CreateBookingRequest(
+                            spotId,
+                            selectedDate,
+                            selectedTime,
+                            seatCount
+                        )
+                    )
+
                 if (response.isSuccessful) {
-                    AlertDialog.Builder(this@StudySpotDetailActivity)
-                        .setTitle("Success")
-                        .setMessage("Your reservation has been successfully booked!")
-                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss(); finish() }
-                        .show()
+                    Toast.makeText(
+                        this@StudySpotDetailActivity,
+                        "Booking berhasil dibuat",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent =
+                        Intent(
+                            this@StudySpotDetailActivity,
+                            MainActivity::class.java
+                        )
+                    intent.putExtra(
+                        MainActivity.EXTRA_OPEN_BOOKINGS,
+                        true
+                    )
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
                 } else {
-                    Toast.makeText(this@StudySpotDetailActivity, "Gagal membuat reservasi", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@StudySpotDetailActivity,
+                        "Gagal membuat booking",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
             } catch (e: Exception) {
-                Toast.makeText(this@StudySpotDetailActivity, "Koneksi gagal: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@StudySpotDetailActivity,
+                    e.localizedMessage,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

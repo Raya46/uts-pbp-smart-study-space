@@ -23,6 +23,7 @@ class BookingsFragment : Fragment() {
 
     private lateinit var bookingAdapter: BookingAdapter
     private var allBookings: List<Booking> = emptyList()
+    private var currentStatus = "active"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,13 @@ class BookingsFragment : Fragment() {
 
         setupRecyclerView()
         setupTabs()
-        fetchBookings("active")
+        fetchBookings(currentStatus)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        fetchBookings(currentStatus)
     }
 
     private fun setupRecyclerView() {
@@ -50,16 +57,17 @@ class BookingsFragment : Fragment() {
 
     private fun setupTabs() {
         binding.tabActiveOrders.setOnClickListener {
-            updateTabUI(isActiveSelected = true)
-            fetchBookings("active")
+            currentStatus = "active"
+            updateTabUI(true)
+            fetchBookings(currentStatus)
         }
 
         binding.tabPreviousOrders.setOnClickListener {
-            updateTabUI(isActiveSelected = false)
-            fetchBookings("previous")
+            currentStatus = "previous"
+            updateTabUI(false)
+            fetchBookings(currentStatus)
         }
     }
-
     private fun updateTabUI(isActiveSelected: Boolean) {
         binding.apply {
             if (isActiveSelected) {

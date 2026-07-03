@@ -30,6 +30,22 @@ interface ApiService {
     @POST("api/bookings")
     suspend fun createBooking(@Body request: CreateBookingRequest): Response<CreateBookingResponse>
 
+    @GET("api/bookings/{id}")
+    suspend fun getBookingDetail(@Path("id") bookingId: Int
+    ): Response<BookingDetailResponse>
+
+    @PATCH("api/bookings/{id}/check-in")
+    suspend fun checkInBooking(@Path("id") bookingId: Int
+    ): Response<CheckInBookingResponse>
+
+    @PATCH("api/bookings/{id}/end")
+    suspend fun endBooking(@Path("id") bookingId: Int
+    ): Response<EndBookingResponse>
+
+    @PATCH("api/bookings/{id}/cancel")
+    suspend fun cancelBooking(@Path("id") bookingId: Int
+    ): Response<CancelBookingResponse>
+
     @GET("api/profile")
     suspend fun getProfile(): Response<ProfileResponse>
 
